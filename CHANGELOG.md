@@ -19,6 +19,7 @@ All notable changes to this project will be documented in this file.
 ### Changed
 - Removed PayPal and Apple Pay options from checkout, keeping only Stripe card payments
 - Added YouTube channel link to thank you page referral section
+- Updated YouTube link to use official YouTube logo image instead of SVG icon
 
 ### Fixed
 - 
