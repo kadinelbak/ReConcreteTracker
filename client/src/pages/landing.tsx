@@ -193,7 +193,6 @@ export default function Landing() {
                 <li><a href="#" className="hover:text-accent transition-colors duration-200">About Us</a></li>
                 <li><a href="#" className="hover:text-accent transition-colors duration-200">Our Mission</a></li>
                 <li><a href="#" className="hover:text-accent transition-colors duration-200">Sustainability</a></li>
-                <li><a href="#" className="hover:text-accent transition-colors duration-200">Contact</a></li>
               </ul>
             </div>
             

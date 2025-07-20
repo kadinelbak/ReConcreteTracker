@@ -21,11 +21,10 @@ All notable changes to this project will be documented in this file.
 - Added YouTube channel link to thank you page referral section
 - Updated YouTube link to use official YouTube logo image instead of SVG icon
 - Added TikTok link alongside YouTube on both thank you page and landing page (hero section and footer)
-- Created dedicated contact page (/contact) with phone, email, QQ, WeChat, TikTok, and YouTube contact information
-- Updated "Contact Our Experts" button in products page to navigate to new contact page
+- Removed Contact link from footer navigation
 
 ### Fixed
 - 
 
 ### Removed
-- 
+-
