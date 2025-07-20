@@ -17,7 +17,8 @@ All notable changes to this project will be documented in this file.
 - Dedicated thank you page with order details and referral messaging
 
 ### Changed
-- Removed PayPal and Apple Pay options from checkout, keeping only Stripe card payments 
+- Removed PayPal and Apple Pay options from checkout, keeping only Stripe card payments
+- Added YouTube channel link to thank you page referral section
 
 ### Fixed
 - 
