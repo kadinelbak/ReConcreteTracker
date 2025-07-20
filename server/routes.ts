@@ -202,6 +202,74 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Admin routes
+  
+  // Get admin stats
+  app.get("/api/admin/stats", async (req, res) => {
+    try {
+      const stats = await storage.getAdminStats();
+      res.json(stats);
+    } catch (error: any) {
+      res.status(500).json({ message: "Error fetching admin stats: " + error.message });
+    }
+  });
+
+  // Get all orders for admin
+  app.get("/api/admin/orders", async (req, res) => {
+    try {
+      const orders = await storage.getAllOrders();
+      res.json(orders);
+    } catch (error: any) {
+      res.status(500).json({ message: "Error fetching orders: " + error.message });
+    }
+  });
+
+  // Update order status
+  app.put("/api/admin/orders/:orderId/status", async (req, res) => {
+    try {
+      const { orderId } = req.params;
+      const { status } = req.body;
+      const order = await storage.updateOrderStatus(parseInt(orderId), status);
+      res.json(order);
+    } catch (error: any) {
+      res.status(400).json({ message: "Error updating order status: " + error.message });
+    }
+  });
+
+  // Create product
+  app.post("/api/admin/products", async (req, res) => {
+    try {
+      const productData = insertProductSchema.parse(req.body);
+      const product = await storage.createProduct(productData);
+      res.json(product);
+    } catch (error: any) {
+      res.status(400).json({ message: "Error creating product: " + error.message });
+    }
+  });
+
+  // Update product
+  app.put("/api/admin/products/:productId", async (req, res) => {
+    try {
+      const { productId } = req.params;
+      const productData = req.body;
+      const product = await storage.updateProduct(parseInt(productId), productData);
+      res.json(product);
+    } catch (error: any) {
+      res.status(400).json({ message: "Error updating product: " + error.message });
+    }
+  });
+
+  // Delete product
+  app.delete("/api/admin/products/:productId", async (req, res) => {
+    try {
+      const { productId } = req.params;
+      await storage.deleteProduct(parseInt(productId));
+      res.json({ message: "Product deleted successfully" });
+    } catch (error: any) {
+      res.status(500).json({ message: "Error deleting product: " + error.message });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
