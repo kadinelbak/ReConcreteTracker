@@ -1,0 +1,77 @@
+# overview
+
+**projectName**: ReConcrete
+**projectDescription**: ReConcrete is a website focused on promoting sustainable building practices through the use of recycled materials in concrete. The website will feature an FAQ video, product listings, and a streamlined checkout process.
+**projectGoals**:
+  - Educate visitors about ReConcrete and its offerings
+  - Provide a simple interface for purchasing products and services
+  - Facilitate a seamless checkout experience
+**targetAudience**: Construction companies, local municipalities, waste management organizations, and environmentally-conscious consumers.
+
+# detailedRequirements
+
+**landingPage**:
+  **videoSection**:
+    **description**: A 10-minute FAQ video about ReConcrete.
+    **uploadFeature**: Enable users to upload a video file.
+    **acceptFileTypes**:
+      - .mp4
+      - .mov
+      - .avi
+  **productButton**:
+    **label**: Product
+    **action**: Navigate to product listing page upon click.
+**productPage**:
+  **products**:
+    -       **name**: Low-strength concrete integrated with recycled plastics
+      **description**: Eco-friendly concrete solution using recycled plastics.
+      **addToCart**: Enable users to add this product to their shopping cart.
+    -       **name**: Plastic recycling services for local community
+      **description**: Recycling service tailored for local community needs.
+      **addToCart**: Enable users to add this service to their shopping cart.
+    -       **name**: Plastic recycling services for waste management organizations or municipalities
+      **description**: Recycling service designed for large scale waste management.
+      **addToCart**: Enable users to add this service to their shopping cart.
+**checkoutPage**:
+  **paymentMethods**:
+    - Apple Pay
+    - PayPal
+    - Visa
+  **confirmationMessage**: Display a thank you and refer us message after successful payment.
+
+# technologyStack
+
+**frontend**: React
+**backend**: Node.js
+**database**: PostgreSQL
+**videoHandling**: AWS S3 for video storage and streaming
+**paymentIntegration**: Stripe API
+
+# coreFeatureSpecifications
+
+**videoUploadAndPlayback**: Implement a functionality to allow video uploads to AWS S3, with playback capabilities on the landing page.
+**productSelectionAndCart**: Develop a shopping cart system using React state management to handle product additions and checkout processes.
+**paymentProcessing**: Integrate Stripe API to process payments including Apple Pay, PayPal, and Visa.
+
+# integrationRecommendations
+
+**AWS S3**: Utilize AWS SDK for JavaScript to facilitate video uploads and management.
+**Stripe API**: Use Stripe's JavaScript libraries for secure and effective payment processing.
+
+# changeManagementInstructions
+
+**createChangelog**: Create a CHANGELOG.md file in the project root directory.
+**changelogTemplate**:
+  **template**: ## [Unreleased]
+### Added
+- 
+### Changed
+- 
+### Fixed
+- 
+### Removed
+- 
+  **note**: Ensure each change is categorized under Added, Changed, Fixed, or Removed with a date and brief description.
+**fileCommentInstructions**: Include a comment at the top of every source file: 'IMPORTANT: Before modifying this file, please update CHANGELOG.md with a summary of your changes. Also, make clear comments about every change in this file and what it was replacing so that we don't end up trying the same fixes repeatedly.'
+**documentationRequirement**: All changes must be documented in the changelog with proper dating.
+
