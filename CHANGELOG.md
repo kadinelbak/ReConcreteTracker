@@ -17,7 +17,7 @@ All notable changes to this project will be documented in this file.
 - Order confirmation system with thank you messaging
 
 ### Changed
-- 
+- Removed PayPal and Apple Pay options from checkout, keeping only Stripe card payments 
 
 ### Fixed
 - 

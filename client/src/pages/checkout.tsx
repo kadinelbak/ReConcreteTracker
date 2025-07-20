@@ -4,12 +4,12 @@ import { useState, useEffect } from "react";
 import { useStripe, Elements, PaymentElement, useElements } from '@stripe/react-stripe-js';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { ShoppingCart, Lock, Check, Heart } from "lucide-react";
-import { FaApple, FaPaypal, FaCcVisa, FaCcMastercard, FaCcAmex } from "react-icons/fa";
+import { FaCcVisa, FaCcMastercard, FaCcAmex } from "react-icons/fa";
 import { useCart } from "@/hooks/use-cart";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
@@ -138,7 +138,6 @@ function CheckoutForm({ clientSecret }: { clientSecret: string }) {
 export default function Checkout() {
   const { cartItems, cartTotal, cartCount, isLoading } = useCart();
   const [clientSecret, setClientSecret] = useState("");
-  const [paymentMethod, setPaymentMethod] = useState("card");
 
   const subtotal = cartTotal;
   const tax = subtotal * 0.08; // 8% tax
@@ -230,43 +229,22 @@ export default function Checkout() {
                   <CardTitle>Payment Method</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <RadioGroup value={paymentMethod} onValueChange={setPaymentMethod} className="space-y-3">
-                    <div className="flex items-center space-x-2 p-4 border rounded-lg">
-                      <RadioGroupItem value="apple-pay" id="apple-pay" />
-                      <Label htmlFor="apple-pay" className="flex items-center justify-between w-full cursor-pointer">
-                        <span>Apple Pay</span>
-                        <FaApple className="h-6 w-6" />
-                      </Label>
-                    </div>
-                    
-                    <div className="flex items-center space-x-2 p-4 border rounded-lg">
-                      <RadioGroupItem value="paypal" id="paypal" />
-                      <Label htmlFor="paypal" className="flex items-center justify-between w-full cursor-pointer">
-                        <span>PayPal</span>
-                        <FaPaypal className="h-6 w-6 text-blue-600" />
-                      </Label>
-                    </div>
-                    
-                    <div className="flex items-center space-x-2 p-4 border rounded-lg">
-                      <RadioGroupItem value="card" id="card" />
-                      <Label htmlFor="card" className="flex items-center justify-between w-full cursor-pointer">
-                        <span>Credit Card</span>
-                        <div className="flex space-x-2">
-                          <FaCcVisa className="h-6 w-6 text-blue-600" />
-                          <FaCcMastercard className="h-6 w-6 text-red-500" />
-                          <FaCcAmex className="h-6 w-6 text-blue-500" />
-                        </div>
-                      </Label>
-                    </div>
-                  </RadioGroup>
+                  <div className="flex items-center space-x-2 p-4 border rounded-lg">
+                    <Label htmlFor="card" className="flex items-center justify-between w-full cursor-pointer">
+                      <span>Credit Card</span>
+                      <div className="flex space-x-2">
+                        <FaCcVisa className="h-6 w-6 text-blue-600" />
+                        <FaCcMastercard className="h-6 w-6 text-red-500" />
+                        <FaCcAmex className="h-6 w-6 text-blue-500" />
+                      </div>
+                    </Label>
+                  </div>
 
-                  {paymentMethod === 'card' && (
-                    <div className="mt-6">
-                      <Elements stripe={stripePromise} options={{ clientSecret }}>
-                        <CheckoutForm clientSecret={clientSecret} />
-                      </Elements>
-                    </div>
-                  )}
+                  <div className="mt-6">
+                    <Elements stripe={stripePromise} options={{ clientSecret }}>
+                      <CheckoutForm clientSecret={clientSecret} />
+                    </Elements>
+                  </div>
                 </CardContent>
               </Card>
             )}
