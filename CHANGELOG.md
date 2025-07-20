@@ -22,7 +22,6 @@ All notable changes to this project will be documented in this file.
 - Updated YouTube link to use official YouTube logo image instead of SVG icon
 - Added TikTok link alongside YouTube on both thank you page and landing page (hero section and footer)
 - Removed Contact link from footer navigation
-- Added prominent About Us, Products, and Contact navigation buttons to homepage hero section
 
 ### Fixed
 - 
