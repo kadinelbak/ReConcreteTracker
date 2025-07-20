@@ -23,13 +23,32 @@ export default function Landing() {
                 Transform waste into strong, eco-friendly concrete solutions. 
                 ReConcrete pioneers sustainable construction through innovative recycled materials.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4">
+              <div className="flex flex-col sm:flex-row gap-4 mb-6">
                 <Link href="/products">
                   <Button size="lg" className="bg-accent hover:bg-accent/90 text-white">
                     <Leaf className="h-5 w-5 mr-2" />
-                    View Products
+                    Products
                   </Button>
                 </Link>
+                <Button 
+                  variant="outline" 
+                  size="lg" 
+                  className="border-white text-white hover:bg-white hover:text-primary"
+                  onClick={() => document.querySelector('#about')?.scrollIntoView({ behavior: 'smooth' })}
+                >
+                  About Us
+                </Button>
+                <Link href="/contact">
+                  <Button 
+                    variant="outline" 
+                    size="lg" 
+                    className="border-white text-white hover:bg-white hover:text-primary"
+                  >
+                    Contact
+                  </Button>
+                </Link>
+              </div>
+              <div className="flex flex-col sm:flex-row gap-4">
                 <Button 
                   variant="outline" 
                   size="lg" 
@@ -85,7 +104,7 @@ export default function Landing() {
       <VideoUpload />
 
       {/* Features Section */}
-      <div className="bg-gray-50 py-16">
+      <div id="about" className="bg-gray-50 py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl lg:text-4xl font-bold text-neutral-dark mb-4">
