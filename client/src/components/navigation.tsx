@@ -22,16 +22,13 @@ export default function Navigation() {
           
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-8">
-              <Link 
-                href="/" 
-                className={`px-3 py-2 text-sm font-medium transition-colors duration-200 ${
-                  location === '/' 
-                    ? 'text-primary' 
-                    : 'text-gray-600 hover:text-accent'
-                }`}
+              <a 
+                href="#about" 
+                className="text-gray-600 hover:text-accent px-3 py-2 text-sm font-medium transition-colors duration-200"
+                onClick={() => document.querySelector('#about')?.scrollIntoView({ behavior: 'smooth' })}
               >
-                Home
-              </Link>
+                About Us
+              </a>
               <Link 
                 href="/products" 
                 className={`px-3 py-2 text-sm font-medium transition-colors duration-200 ${
@@ -42,18 +39,16 @@ export default function Navigation() {
               >
                 Products
               </Link>
-              <a 
-                href="#about" 
-                className="text-gray-600 hover:text-accent px-3 py-2 text-sm font-medium transition-colors duration-200"
-              >
-                About
-              </a>
-              <a 
-                href="#contact" 
-                className="text-gray-600 hover:text-accent px-3 py-2 text-sm font-medium transition-colors duration-200"
+              <Link 
+                href="/contact" 
+                className={`px-3 py-2 text-sm font-medium transition-colors duration-200 ${
+                  location === '/contact' 
+                    ? 'text-primary' 
+                    : 'text-gray-600 hover:text-accent'
+                }`}
               >
                 Contact
-              </a>
+              </Link>
             </div>
           </div>
           

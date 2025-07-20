@@ -17,11 +17,10 @@ All notable changes to this project will be documented in this file.
 - Dedicated thank you page with order details and referral messaging
 
 ### Changed
-- Removed PayPal and Apple Pay options from checkout, keeping only Stripe card payments
-- Added YouTube channel link to thank you page referral section
-- Updated YouTube link to use official YouTube logo image instead of SVG icon
 - Added TikTok link alongside YouTube on both thank you page and landing page (hero section and footer)
 - Removed Contact link from footer navigation
+- Added prominent About Us, Products, and Contact navigation buttons to homepage hero section
+- Updated navigation bar to include About Us, Products, and Contact links
 
 ### Fixed
 - 
