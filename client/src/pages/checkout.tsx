@@ -7,8 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
-import { ShoppingCart, Lock, Check, Heart } from "lucide-react";
+import { ShoppingCart, Lock } from "lucide-react";
 import { FaCcVisa, FaCcMastercard, FaCcAmex } from "react-icons/fa";
 import { useCart } from "@/hooks/use-cart";
 import { useToast } from "@/hooks/use-toast";
@@ -22,8 +21,6 @@ function CheckoutForm({ clientSecret }: { clientSecret: string }) {
   const { toast } = useToast();
   const { clearCart, sessionId } = useCart();
   const [isProcessing, setIsProcessing] = useState(false);
-  const [showConfirmation, setShowConfirmation] = useState(false);
-  const [orderNumber, setOrderNumber] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -63,9 +60,9 @@ function CheckoutForm({ clientSecret }: { clientSecret: string }) {
         };
 
         await apiRequest("POST", "/api/orders", orderData);
-        setOrderNumber(orderData.orderNumber);
-        setShowConfirmation(true);
         await clearCart();
+        // Redirect to thank you page with order number
+        window.location.href = `/thank-you?order=${orderData.orderNumber}`;
       } catch (err) {
         console.error("Error creating order:", err);
       }
@@ -97,40 +94,7 @@ function CheckoutForm({ clientSecret }: { clientSecret: string }) {
         </Button>
       </form>
 
-      <Dialog open={showConfirmation} onOpenChange={setShowConfirmation}>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader className="text-center">
-            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Check className="h-8 w-8 text-green-600" />
-            </div>
-            <DialogTitle className="text-2xl">Order Confirmed!</DialogTitle>
-            <DialogDescription>
-              Thank you for choosing ReConcrete for your sustainable building needs.
-            </DialogDescription>
-          </DialogHeader>
-          
-          <div className="bg-gray-50 rounded-xl p-4 text-center">
-            <h3 className="font-semibold text-neutral-dark mb-2">Order #{orderNumber}</h3>
-            <p className="text-sm text-gray-600">Confirmation email will be sent shortly</p>
-          </div>
-
-          <div className="space-y-3">
-            <Button 
-              onClick={() => {
-                setShowConfirmation(false);
-                window.location.href = '/';
-              }}
-              className="w-full bg-primary hover:bg-primary/90"
-            >
-              Continue Shopping
-            </Button>
-            <p className="text-sm text-accent font-medium text-center">
-              <Heart className="h-4 w-4 inline mr-1" />
-              Help us grow! Please refer ReConcrete to your network.
-            </p>
-          </div>
-        </DialogContent>
-      </Dialog>
+      
     </>
   );
 }

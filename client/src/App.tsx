@@ -8,6 +8,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import Landing from "@/pages/landing";
 import Products from "@/pages/products";
 import Checkout from "@/pages/checkout";
+import ThankYou from "@/pages/thank-you";
 import NotFound from "@/pages/not-found";
 import Navigation from "@/components/navigation";
 import { CartProvider } from "@/hooks/use-cart";
@@ -20,6 +21,7 @@ function Router() {
         <Route path="/" component={Landing} />
         <Route path="/products" component={Products} />
         <Route path="/checkout" component={Checkout} />
+        <Route path="/thank-you" component={ThankYou} />
         <Route component={NotFound} />
       </Switch>
     </>

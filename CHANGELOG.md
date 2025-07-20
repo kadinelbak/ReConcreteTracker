@@ -4,7 +4,6 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
-### Added
 - Initial ReConcrete e-commerce platform implementation
 - Landing page with hero section and video upload functionality
 - Product listing page with three sustainable concrete solutions
@@ -15,6 +14,7 @@ All notable changes to this project will be documented in this file.
 - Responsive design with eco-friendly green color scheme
 - Support for Apple Pay, PayPal, and Visa payment methods
 - Order confirmation system with thank you messaging
+- Dedicated thank you page with order details and referral messaging
 
 ### Changed
 - Removed PayPal and Apple Pay options from checkout, keeping only Stripe card payments 
