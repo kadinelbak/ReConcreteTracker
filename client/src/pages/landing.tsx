@@ -179,15 +179,6 @@ export default function Landing() {
             </div>
             
             <div>
-              <h4 className="font-semibold mb-4">Products</h4>
-              <ul className="space-y-2 text-gray-300">
-                <li><a href="#" className="hover:text-accent transition-colors duration-200">Recycled Concrete</a></li>
-                <li><a href="#" className="hover:text-accent transition-colors duration-200">Community Services</a></li>
-                <li><a href="#" className="hover:text-accent transition-colors duration-200">Enterprise Solutions</a></li>
-              </ul>
-            </div>
-            
-            <div>
               <h4 className="font-semibold mb-4">Company</h4>
               <ul className="space-y-2 text-gray-300">
                 <li><a href="#" className="hover:text-accent transition-colors duration-200">About Us</a></li>
