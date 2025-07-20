@@ -1,6 +1,7 @@
 // IMPORTANT: Before modifying this file, please update CHANGELOG.md with a summary of your changes. Also, make clear comments about every change in this file and what it was replacing so that we don't end up trying the same fixes repeatedly.
 
 import { useQuery } from "@tanstack/react-query";
+import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -76,10 +77,12 @@ export default function Products() {
                 Our team can develop tailored sustainable concrete solutions and recycling services 
                 to meet your specific project requirements and environmental goals.
               </p>
-              <Button className="bg-accent hover:bg-accent/90">
-                <Phone className="h-4 w-4 mr-2" />
-                Contact Our Experts
-              </Button>
+              <Link href="/contact">
+                <Button className="bg-accent hover:bg-accent/90">
+                  <Phone className="h-4 w-4 mr-2" />
+                  Contact Our Experts
+                </Button>
+              </Link>
             </div>
             <div className="text-center">
               <img 
