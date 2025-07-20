@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 ### Added
+- Admin dashboard page with product management capabilities (/admin route)
+- AdminProductTable component for managing ReConcrete products
+- Admin navigation sidebar with ReConcrete branding
+- Admin stats cards showing total products, orders, revenue, and low stock items
+- Product creation, editing, and deletion functionality in admin panel
 - About Us page with comprehensive company mission, process, products, and value proposition
 - Contact page with phone number, email, QQ, WeChat, and TikTok account information
 - "Contact Our Experts" button in products page that navigates to contact page
