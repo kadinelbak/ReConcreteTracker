@@ -22,23 +22,15 @@ export default function Navigation() {
               <h1 className="text-2xl font-bold text-primary">ReConcrete</h1>
             </Link>
           </div>
-          
+
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            <a 
-              href="#about" 
+            <Link 
+              href="/about" 
               className="text-gray-600 hover:text-accent px-3 py-2 text-sm font-medium transition-colors duration-200"
-              onClick={(e) => {
-                e.preventDefault();
-                if (location === '/') {
-                  document.querySelector('#about')?.scrollIntoView({ behavior: 'smooth' });
-                } else {
-                  window.location.href = '/#about';
-                }
-              }}
             >
               About Us
-            </a>
+            </Link>
             <Link 
               href="/products" 
               className={`px-3 py-2 text-sm font-medium transition-colors duration-200 ${
@@ -60,7 +52,7 @@ export default function Navigation() {
               Contact
             </Link>
           </div>
-          
+
           {/* Right side - Cart and Mobile Menu Button */}
           <div className="flex items-center space-x-4">
             <Link href="/checkout">
@@ -73,7 +65,7 @@ export default function Navigation() {
                 )}
               </Button>
             </Link>
-            
+
             {/* Mobile menu button */}
             <div className="md:hidden">
               <Button
@@ -92,21 +84,17 @@ export default function Navigation() {
         {isMobileMenuOpen && (
           <div className="md:hidden border-t border-gray-200">
             <div className="px-2 pt-2 pb-3 space-y-1 bg-white">
-              <a
-                href="#about"
-                className="block px-3 py-2 text-base font-medium text-gray-600 hover:text-accent hover:bg-gray-50 transition-colors duration-200"
-                onClick={(e) => {
-                  e.preventDefault();
-                  setIsMobileMenuOpen(false);
-                  if (location === '/') {
-                    document.querySelector('#about')?.scrollIntoView({ behavior: 'smooth' });
-                  } else {
-                    window.location.href = '/#about';
-                  }
-                }}
+              <Link
+                href="/about"
+                className={`block px-3 py-2 text-base font-medium transition-colors duration-200 ${
+                  location === '/about'
+                    ? 'text-primary bg-gray-50'
+                    : 'text-gray-600 hover:text-accent hover:bg-gray-50'
+                }`}
+                onClick={() => setIsMobileMenuOpen(false)}
               >
                 About Us
-              </a>
+              </Link>
               <Link
                 href="/products"
                 className={`block px-3 py-2 text-base font-medium transition-colors duration-200 ${

@@ -13,6 +13,7 @@ import NotFound from "@/pages/not-found";
 import Navigation from "@/components/navigation";
 import { CartProvider } from "@/hooks/use-cart";
 import Contact from "@/pages/contact";
+import About from "@/pages/about";
 
 function Router() {
   return (
@@ -20,6 +21,7 @@ function Router() {
       <Navigation />
       <Switch>
         <Route path="/" component={Landing} />
+        <Route path="/about" component={About} />
         <Route path="/products" component={Products} />
         <Route path="/checkout" component={Checkout} />
         <Route path="/thank-you" component={ThankYou} />

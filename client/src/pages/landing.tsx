@@ -30,13 +30,15 @@ export default function Landing() {
                     View Products
                   </Button>
                 </Link>
-                <Button 
-                  variant="outline" 
-                  size="lg" 
-                  className="border-white text-white hover:bg-white hover:text-primary"
-                >
-                  Learn More
-                </Button>
+                <Link href="/about">
+                  <Button 
+                    variant="outline" 
+                    size="lg" 
+                    className="border-white text-white hover:bg-white hover:text-primary"
+                  >
+                    Learn More
+                  </Button>
+                </Link>
               </div>
               <div className="mt-6 flex flex-col sm:flex-row gap-3">
                 <a 

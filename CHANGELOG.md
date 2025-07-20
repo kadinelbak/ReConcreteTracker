@@ -5,11 +5,13 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 ### Added
+- About Us page with comprehensive company mission, process, products, and value proposition
 - Contact page with phone number, email, QQ, WeChat, and TikTok account information
 - "Contact Our Experts" button in products page that navigates to contact page
 - Navigation links for About Us, Products, and Contact in the main navigation bar
 - Mobile navigation menu with hamburger button for better mobile experience
 - Enhanced navigation visibility with improved styling and active states
+- About page route (/about) added to App router
 
 ### Changed
 - Removed "Our Mission" and "Products" sections from footer navigation on landing page
