@@ -104,19 +104,34 @@ export default function ThankYou() {
               <p className="text-sm text-gray-600 mb-2">
                 Stay connected with ReConcrete:
               </p>
-              <a 
-                href="https://www.youtube.com/channel/UC4zdc1nB53ekKx4tj17EabA" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="inline-flex items-center text-accent hover:text-accent/80 transition-colors duration-200"
-              >
-                <img 
-                  src="https://upload.wikimedia.org/wikipedia/commons/4/42/YouTube_icon_%282013-2017%29.png" 
-                  alt="YouTube" 
-                  className="h-4 w-4 mr-2"
-                />
-                Visit our YouTube Channel
-              </a>
+              <div className="flex flex-col sm:flex-row gap-3">
+                <a 
+                  href="https://www.youtube.com/channel/UC4zdc1nB53ekKx4tj17EabA" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center text-accent hover:text-accent/80 transition-colors duration-200"
+                >
+                  <img 
+                    src="https://upload.wikimedia.org/wikipedia/commons/4/42/YouTube_icon_%282013-2017%29.png" 
+                    alt="YouTube" 
+                    className="h-4 w-4 mr-2"
+                  />
+                  Visit our YouTube Channel
+                </a>
+                <a 
+                  href="https://v.douyin.com/Imkal4NiVNQ/" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center text-accent hover:text-accent/80 transition-colors duration-200"
+                >
+                  <img 
+                    src="https://upload.wikimedia.org/wikipedia/commons/a/a9/TikTok_logo.svg" 
+                    alt="TikTok" 
+                    className="h-4 w-4 mr-2"
+                  />
+                  Follow us on TikTok
+                </a>
+              </div>
             </div>
           </div>
         </div>
