@@ -164,19 +164,18 @@ export class DatabaseStorage implements IStorage {
         eq(orders.status, 'completed')
       ));
 
-      // Get low stock items
+      // Get low stock items (commented out since products table doesn't have quantity field)
       const lowStockThreshold = 10; // You can adjust this threshold
-      const lowStockItems = await db
-        .select({ count: sql<number>`count(*)` })
-        .from(products)
-        .where(lt(products.quantity, lowStockThreshold));
+      // const lowStockItems = await db
+      //   .select({ count: sql<number>`count(*)` })
+      //   .from(products)
+      //   .where(lt(products.quantity, lowStockThreshold));
 
       return {
         totalProducts: totalProducts.count,
         activeProducts: activeProducts.count,
         ordersToday: ordersToday.count,
         revenueToday: parseFloat(revenueResult.total) || 0,
-        lowStockItems: lowStockItems[0]?.count || 0, 
       };
     } catch (error: any) {
       console.error('Error getting admin stats:', error);
