@@ -7,7 +7,7 @@ import Stripe from "stripe";
 import multer from "multer";
 import { v4 as uuidv4 } from "uuid";
 import AWS from "aws-sdk";
-import { insertCartItemSchema, insertOrderSchema, insertOrderItemSchema, insertVideoSchema } from "@shared/schema";
+import { insertCartItemSchema, insertOrderSchema, insertOrderItemSchema, insertVideoSchema, insertProductSchema } from "@shared/schema";
 
 // Initialize Stripe
 if (!process.env.STRIPE_SECRET_KEY) {
