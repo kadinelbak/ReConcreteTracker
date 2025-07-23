@@ -289,8 +289,8 @@ export default function Admin() {
                               <td colSpan={6} className="text-center py-8 text-gray-500">
                                 <div className="flex flex-col items-center">
                                   <ShoppingCart className="h-12 w-12 mx-auto mb-4 text-gray-300" />
-                                  <p className="text-lg font-medium">No purchases yet</p>
-                                  <p className="text-sm text-gray-400">Orders will appear here once customers make purchases</p>
+                                  <p className="text-lg font-medium">No orders found</p>
+                                  <p className="text-sm text-gray-400">Completed orders with sustainable concrete products will appear here</p>
                                 </div>
                               </td>
                             </tr>
