@@ -1,4 +1,3 @@
-
 // IMPORTANT: Before modifying this file, please update CHANGELOG.md with a summary of your changes. Also, make clear comments about every change in this file and what it was replacing so that we don't end up trying the same fixes repeatedly.
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -51,6 +50,29 @@ export default function Contact() {
           </CardContent>
         </Card>
 
+        {/* YouTube Contact - Moved here */}
+        <Card className="hover:shadow-lg transition-shadow duration-300">
+          <CardContent className="p-8 text-center">
+            <div className="text-accent text-4xl mb-4">
+              <img 
+                src="https://upload.wikimedia.org/wikipedia/commons/4/42/YouTube_icon_%282013-2017%29.png" 
+                alt="YouTube" 
+                className="h-12 w-12 mx-auto"
+              />
+            </div>
+            <h3 className="text-xl font-semibold text-neutral-dark mb-3">YouTube</h3>
+            <p className="text-gray-600 mb-4">Watch our educational content</p>
+            <a 
+              href="https://www.youtube.com/channel/UC4zdc1nB53ekKx4tj17EabA" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-accent hover:text-accent/80 font-semibold transition-colors duration-200"
+            >
+              ReConcrete Channel
+            </a>
+          </CardContent>
+        </Card>
+
         {/* QQ Contact */}
         <Card className="hover:shadow-lg transition-shadow duration-300">
           <CardContent className="p-8 text-center">
@@ -98,29 +120,6 @@ export default function Contact() {
               className="text-accent hover:text-accent/80 font-semibold transition-colors duration-200"
             >
               @ReConcrete
-            </a>
-          </CardContent>
-        </Card>
-
-        {/* YouTube Contact */}
-        <Card className="hover:shadow-lg transition-shadow duration-300">
-          <CardContent className="p-8 text-center">
-            <div className="text-accent text-4xl mb-4">
-              <img 
-                src="https://upload.wikimedia.org/wikipedia/commons/4/42/YouTube_icon_%282013-2017%29.png" 
-                alt="YouTube" 
-                className="h-12 w-12 mx-auto"
-              />
-            </div>
-            <h3 className="text-xl font-semibold text-neutral-dark mb-3">YouTube</h3>
-            <p className="text-gray-600 mb-4">Watch our educational content</p>
-            <a 
-              href="https://www.youtube.com/channel/UC4zdc1nB53ekKx4tj17EabA" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-accent hover:text-accent/80 font-semibold transition-colors duration-200"
-            >
-              ReConcrete Channel
             </a>
           </CardContent>
         </Card>
