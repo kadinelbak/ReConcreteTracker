@@ -287,7 +287,11 @@ export default function Admin() {
                           {orders.length === 0 && (
                             <tr>
                               <td colSpan={6} className="text-center py-8 text-gray-500">
-                                No orders found.
+                                <div className="flex flex-col items-center">
+                                  <ShoppingCart className="h-12 w-12 mx-auto mb-4 text-gray-300" />
+                                  <p className="text-lg font-medium">No purchases yet</p>
+                                  <p className="text-sm text-gray-400">Orders will appear here once customers make purchases</p>
+                                </div>
                               </td>
                             </tr>
                           )}
