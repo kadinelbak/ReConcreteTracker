@@ -175,7 +175,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/orders", async (req, res) => {
     try {
       const orderData = insertOrderSchema.parse(req.body);
-      const order = await storage.createOrder(orderData);
+      
+      // Get cart items to create order items
+      let cartItems = [];
+      if (orderData.sessionId) {
+        cartItems = await storage.getCartItems(orderData.sessionId);
+      }
+      
+      const order = await storage.createOrderWithItems(orderData, cartItems);
       
       // Clear cart after successful order
       if (orderData.sessionId) {

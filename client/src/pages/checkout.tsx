@@ -52,9 +52,9 @@ function CheckoutForm({ clientSecret }: { clientSecret: string }) {
         const orderData = {
           orderNumber: `RC-${Date.now()}`,
           sessionId,
-          subtotal: "0", // Will be calculated on backend
-          tax: "0",
-          total: "0",
+          subtotal: subtotal.toFixed(2),
+          tax: tax.toFixed(2),
+          total: total.toFixed(2),
           paymentMethod: "stripe",
           status: "completed",
         };

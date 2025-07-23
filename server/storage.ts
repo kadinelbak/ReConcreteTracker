@@ -32,10 +32,11 @@ export interface IStorage {
   createOrder(insertOrder: InsertOrder): Promise<Order>;
   getOrderByNumber(orderNumber: string): Promise<Order | undefined>;
   createOrderItems(orderItems: InsertOrderItem[]): Promise<OrderItem[]>;
+  createOrderWithItems(orderData: InsertOrder, cartItems: any[]): Promise<Order>;
 
   // Admin methods
   getAdminStats(): Promise<any>;
-  getAllOrders(): Promise<Order[]>;
+  getAllOrders(): Promise<any[]>;
   updateOrderStatus(orderId: number, status: string): Promise<Order>;
   createProduct(productData: InsertProduct): Promise<Product>;
   updateProduct(productId: number, productData: Partial<InsertProduct>): Promise<Product>;
@@ -121,22 +122,22 @@ export class DatabaseStorage implements IStorage {
     if (insertOrder.sessionId) {
       // Get cart items with product details
       const cartItemsWithProducts = await this.getCartItems(insertOrder.sessionId);
-      
+
       if (cartItemsWithProducts.length === 0) {
         throw new Error('Cannot create order: cart is empty');
       }
-      
+
       // Calculate totals from cart items
       let subtotal = 0;
       cartItemsWithProducts.forEach(item => {
         const price = parseFloat(item.product.price?.toString() || '0');
         subtotal += price * item.quantity;
       });
-      
+
       const taxRate = 0.08; // 8% tax rate
       const tax = subtotal * taxRate;
       const total = subtotal + tax;
-      
+
       // Update order data with calculated values
       const orderData = {
         ...insertOrder,
@@ -144,13 +145,13 @@ export class DatabaseStorage implements IStorage {
         tax: tax.toFixed(2),
         total: total.toFixed(2)
       };
-      
+
       // Create the order
       const [order] = await db
         .insert(orders)
         .values(orderData)
         .returning();
-      
+
       // Create order items from cart items
       const orderItemsData = cartItemsWithProducts.map(cartItem => ({
         orderId: order.id,
@@ -158,9 +159,9 @@ export class DatabaseStorage implements IStorage {
         quantity: cartItem.quantity,
         price: cartItem.product.price?.toString() || '0'
       }));
-      
+
       await db.insert(orderItems).values(orderItemsData);
-      
+
       return order;
     } else {
       // For orders without sessionId (legacy or direct creation)
@@ -179,6 +180,45 @@ export class DatabaseStorage implements IStorage {
 
   async createOrderItems(orderItemsData: InsertOrderItem[]): Promise<OrderItem[]> {
     return await db.insert(orderItems).values(orderItemsData).returning();
+  }
+
+  async createOrderWithItems(orderData: InsertOrder, cartItems: any[]): Promise<Order> {
+    try {
+      // Calculate totals from cart items
+      let subtotal = 0;
+      for (const item of cartItems) {
+        subtotal += parseFloat(item.product.price) * item.quantity;
+      }
+
+      const tax = subtotal * 0.08; // 8% tax
+      const total = subtotal + tax;
+
+      // Update order data with calculated totals
+      const updatedOrderData = {
+        ...orderData,
+        subtotal: subtotal.toFixed(2),
+        tax: tax.toFixed(2),
+        total: total.toFixed(2),
+      };
+
+      // Create the order
+      const [order] = await db.insert(orders).values(updatedOrderData).returning();
+
+      // Create order items
+      for (const cartItem of cartItems) {
+        await db.insert(orderItems).values({
+          orderId: order.id,
+          productId: cartItem.productId,
+          quantity: cartItem.quantity,
+          price: cartItem.product.price,
+        });
+      }
+
+      return order;
+    } catch (error: any) {
+      console.error('Error creating order with items:', error);
+      throw error;
+    }
   }
 
   // Admin methods
@@ -243,25 +283,18 @@ export class DatabaseStorage implements IStorage {
 
   async getAllOrders(): Promise<any[]> {
     try {
-      // First get all orders
+      // Get all orders with their items
       const allOrders = await db.select().from(orders).orderBy(desc(orders.createdAt));
-      
-      // For each order, get its items with product details
-      const ordersWithItemDetails = await Promise.all(
+
+      // For each order, get its items
+      const ordersWithItems = await Promise.all(
         allOrders.map(async (order) => {
           const items = await db.select({
             id: orderItems.id,
             quantity: orderItems.quantity,
             price: orderItems.price,
             productName: products.name,
-            product: {
-              id: products.id,
-              name: products.name,
-              description: products.description,
-              price: products.price,
-              type: products.type,
-              category: products.category
-            }
+            product: products,
           })
           .from(orderItems)
           .innerJoin(products, eq(orderItems.productId, products.id))
@@ -269,13 +302,12 @@ export class DatabaseStorage implements IStorage {
 
           return {
             ...order,
-            items
+            items,
           };
         })
       );
 
-      // Filter out orders with no items (only return orders that have actual purchases)
-      return ordersWithItemDetails.filter(order => order.items && order.items.length > 0);
+      return ordersWithItems;
     } catch (error: any) {
       console.error('Error getting all orders:', error);
       throw new Error('Failed to get orders');
