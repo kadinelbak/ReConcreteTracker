@@ -182,7 +182,7 @@ export default function Landing() {
             
             <div>
               <h4 className="font-semibold mb-4 text-white">Contact Info</h4>
-              <div className="space-y-3 text-gray-100">
+              <div className="space-y-3 text-white">
                 <p className="flex items-center">
                   <Phone className="h-4 w-4 mr-3 text-accent" />
                   +86 13792090331
