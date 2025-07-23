@@ -171,7 +171,9 @@ export default function Admin() {
                   <div>
                     <p className="text-sm text-gray-600">Total Revenue</p>
                     <p className="text-2xl font-bold text-primary">${stats?.totalRevenue?.toFixed(2) || '0.00'}</p>
-                    <p className="text-xs text-gray-500">All time</p>
+                    <p className="text-xs text-gray-500">
+                      {stats?.totalRevenue > 0 ? 'From completed purchases' : 'No completed purchases yet'}
+                    </p>
                   </div>
                   <DollarSign className="w-8 h-8 text-green-600" />
                 </div>
@@ -184,7 +186,9 @@ export default function Admin() {
                   <div>
                     <p className="text-sm text-gray-600">Today's Revenue</p>
                     <p className="text-2xl font-bold text-primary">${stats?.revenueToday?.toFixed(2) || '0.00'}</p>
-                    <p className="text-xs text-gray-500">Last 24 hours</p>
+                    <p className="text-xs text-gray-500">
+                      {stats?.revenueToday > 0 ? 'From completed orders today' : 'No completed orders today'}
+                    </p>
                   </div>
                   <DollarSign className="w-8 h-8 text-accent" />
                 </div>
