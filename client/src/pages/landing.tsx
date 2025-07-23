@@ -185,7 +185,7 @@ export default function Landing() {
               <div className="space-y-2 text-gray-300">
                 <p className="flex items-center">
                   <Phone className="h-4 w-4 mr-2 text-accent" />
-                  (555) 123-4567
+                  +86 13792090331
                 </p>
                 <p className="flex items-center">
                   <Mail className="h-4 w-4 mr-2 text-accent" />
