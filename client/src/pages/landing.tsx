@@ -155,7 +155,7 @@ export default function Landing() {
                   href="https://www.youtube.com/channel/UC4zdc1nB53ekKx4tj17EabA" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="inline-flex items-center text-gray-200 hover:text-accent transition-colors duration-200"
+                  className="inline-flex items-center text-black font-semibold hover:text-accent transition-colors duration-200"
                 >
                   <img 
                     src="https://upload.wikimedia.org/wikipedia/commons/4/42/YouTube_icon_%282013-2017%29.png" 
@@ -168,7 +168,7 @@ export default function Landing() {
                   href="https://v.douyin.com/Imkal4NiVNQ/" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="inline-flex items-center text-gray-200 hover:text-accent transition-colors duration-200"
+                  className="inline-flex items-center text-black font-semibold hover:text-accent transition-colors duration-200"
                 >
                   <img 
                     src="https://upload.wikimedia.org/wikipedia/commons/a/a9/TikTok_logo.svg" 
