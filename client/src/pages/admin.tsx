@@ -223,10 +223,28 @@ export default function Admin() {
                                 </div>
                               </td>
                               <td className="py-3 px-4">
-                                <span className="text-sm">Items in order</span>
+                                <div className="text-sm space-y-1">
+                                  {order.items && order.items.length > 0 ? (
+                                    order.items.map((item: any, index: number) => (
+                                      <div key={index} className="flex justify-between">
+                                        <span className="font-medium">{item.productName || item.product?.name || 'Unknown Product'}</span>
+                                        <span className="text-gray-500 ml-2">x{item.quantity}</span>
+                                      </div>
+                                    ))
+                                  ) : (
+                                    <span className="text-gray-500">No items</span>
+                                  )}
+                                </div>
                               </td>
                               <td className="py-3 px-4">
-                                <span className="font-medium">${order.total}</span>
+                                <div className="text-sm">
+                                  <div className="font-semibold text-lg">${parseFloat(order.total).toFixed(2)}</div>
+                                  {order.subtotal && (
+                                    <div className="text-xs text-gray-500">
+                                      Subtotal: ${parseFloat(order.subtotal).toFixed(2)}
+                                    </div>
+                                  )}
+                                </div>
                               </td>
                               <td className="py-3 px-4">
                                 <Badge className={getStatusColor(order.status)}>
