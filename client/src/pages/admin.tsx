@@ -171,9 +171,7 @@ export default function Admin() {
                   <div>
                     <p className="text-sm text-gray-600">Total Revenue</p>
                     <p className="text-2xl font-bold text-primary">${stats?.totalRevenue?.toFixed(2) || '0.00'}</p>
-                    <p className="text-xs text-gray-500">
-                      {stats?.totalRevenue > 0 ? 'From completed purchases' : 'No completed purchases yet'}
-                    </p>
+                    <p className="text-xs text-gray-500">All time</p>
                   </div>
                   <DollarSign className="w-8 h-8 text-green-600" />
                 </div>
@@ -186,9 +184,7 @@ export default function Admin() {
                   <div>
                     <p className="text-sm text-gray-600">Today's Revenue</p>
                     <p className="text-2xl font-bold text-primary">${stats?.revenueToday?.toFixed(2) || '0.00'}</p>
-                    <p className="text-xs text-gray-500">
-                      {stats?.revenueToday > 0 ? 'From completed orders today' : 'No completed orders today'}
-                    </p>
+                    <p className="text-xs text-gray-500">Last 24 hours</p>
                   </div>
                   <DollarSign className="w-8 h-8 text-accent" />
                 </div>
@@ -293,8 +289,8 @@ export default function Admin() {
                               <td colSpan={6} className="text-center py-8 text-gray-500">
                                 <div className="flex flex-col items-center">
                                   <ShoppingCart className="h-12 w-12 mx-auto mb-4 text-gray-300" />
-                                  <p className="text-lg font-medium">No orders found</p>
-                                  <p className="text-sm text-gray-400">Completed orders with sustainable concrete products will appear here</p>
+                                  <p className="text-lg font-medium">No purchases yet</p>
+                                  <p className="text-sm text-gray-400">Orders will appear here once customers make purchases</p>
                                 </div>
                               </td>
                             </tr>
