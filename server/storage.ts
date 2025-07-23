@@ -185,7 +185,25 @@ export class DatabaseStorage implements IStorage {
 
   async getAllOrders(): Promise<Order[]> {
     try {
-      const result = await db.select().from(orders).orderBy(orders.createdAt);
+      // Only get orders that have at least one order item (actual purchases)
+      const result = await db.select({
+        id: orders.id,
+        orderNumber: orders.orderNumber,
+        sessionId: orders.sessionId,
+        userId: orders.userId,
+        subtotal: orders.subtotal,
+        tax: orders.tax,
+        total: orders.total,
+        paymentMethod: orders.paymentMethod,
+        paymentIntentId: orders.paymentIntentId,
+        status: orders.status,
+        createdAt: orders.createdAt,
+      })
+      .from(orders)
+      .innerJoin(orderItems, eq(orders.id, orderItems.orderId))
+      .groupBy(orders.id)
+      .orderBy(desc(orders.createdAt));
+      
       return result;
     } catch (error: any) {
       console.error('Error getting all orders:', error);
