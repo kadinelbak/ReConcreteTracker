@@ -147,7 +147,7 @@ export default function Landing() {
                 <Recycle className="text-accent mr-2 h-6 w-6" />
                 ReConcrete
               </h3>
-              <p className="text-gray-300 mb-6 leading-relaxed">
+              <p className="text-gray-200 mb-6 leading-relaxed">
                 Building a sustainable future through innovative recycled concrete solutions.
               </p>
               <div className="flex flex-col gap-3">
@@ -155,7 +155,7 @@ export default function Landing() {
                   href="https://www.youtube.com/channel/UC4zdc1nB53ekKx4tj17EabA" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="inline-flex items-center text-gray-300 hover:text-accent transition-colors duration-200"
+                  className="inline-flex items-center text-gray-200 hover:text-accent transition-colors duration-200"
                 >
                   <img 
                     src="https://upload.wikimedia.org/wikipedia/commons/4/42/YouTube_icon_%282013-2017%29.png" 
@@ -168,7 +168,7 @@ export default function Landing() {
                   href="https://v.douyin.com/Imkal4NiVNQ/" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="inline-flex items-center text-gray-300 hover:text-accent transition-colors duration-200"
+                  className="inline-flex items-center text-gray-200 hover:text-accent transition-colors duration-200"
                 >
                   <img 
                     src="https://upload.wikimedia.org/wikipedia/commons/a/a9/TikTok_logo.svg" 
