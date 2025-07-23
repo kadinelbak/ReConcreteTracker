@@ -215,7 +215,7 @@ export default function Landing() {
           </div>
           
           <div className="border-t border-gray-700 mt-12 pt-8 text-center">
-            <p className="text-gray-300 text-sm leading-relaxed">
+            <p className="text-black text-sm leading-relaxed font-semibold">
               &copy; 2024 ReConcrete. All rights reserved. Building a sustainable future.
             </p>
           </div>
