@@ -157,28 +157,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "Invalid amount" });
       }
 
-      // Validate amount is reasonable (between $0.50 and $10,000)
-      if (amount < 0.5 || amount > 10000) {
-        return res.status(400).json({ message: "Amount out of acceptable range" });
-      }
-
-      console.log(`Creating payment intent for amount: $${amount}, sessionId: ${sessionId}`);
-
       const paymentIntent = await stripe.paymentIntents.create({
         amount: Math.round(amount * 100), // Convert to cents
         currency: "usd",
-        automatic_payment_methods: {
-          enabled: true,
-        },
         metadata: {
           sessionId: sessionId || '',
         },
       });
       
-      console.log(`Payment intent created: ${paymentIntent.id}`);
       res.json({ clientSecret: paymentIntent.client_secret });
     } catch (error: any) {
-      console.error("Stripe payment intent creation error:", error);
       res.status(500).json({ message: "Error creating payment intent: " + error.message });
     }
   });
@@ -187,14 +175,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/orders", async (req, res) => {
     try {
       const orderData = insertOrderSchema.parse(req.body);
-      
-      // Get cart items to create order items
-      let cartItems = [];
-      if (orderData.sessionId) {
-        cartItems = await storage.getCartItems(orderData.sessionId);
-      }
-      
-      const order = await storage.createOrderWithItems(orderData, cartItems);
+      const order = await storage.createOrder(orderData);
       
       // Clear cart after successful order
       if (orderData.sessionId) {

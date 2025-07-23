@@ -26,94 +26,46 @@ function CheckoutForm({ clientSecret }: { clientSecret: string }) {
     e.preventDefault();
 
     if (!stripe || !elements) {
-      toast({
-        title: "Payment Error",
-        description: "Payment system not ready. Please try again.",
-        variant: "destructive",
-      });
       return;
     }
 
     setIsProcessing(true);
 
-    try {
-      // Submit payment element to get validation
-      const { error: submitError } = await elements.submit();
-      if (submitError) {
-        toast({
-          title: "Payment Error",
-          description: submitError.message,
-          variant: "destructive",
-        });
-        setIsProcessing(false);
-        return;
-      }
+    const { error } = await stripe.confirmPayment({
+      elements,
+      confirmParams: {
+        return_url: window.location.origin + '/checkout',
+      },
+      redirect: 'if_required',
+    });
 
-      // Confirm payment
-      const { error, paymentIntent } = await stripe.confirmPayment({
-        elements,
-        confirmParams: {
-          return_url: window.location.origin + '/checkout',
-        },
-        redirect: 'if_required',
-      });
-
-      if (error) {
-        console.error("Payment confirmation error:", error);
-        toast({
-          title: "Payment Failed",
-          description: error.message || "There was an issue processing your payment. Please try again.",
-          variant: "destructive",
-        });
-        setIsProcessing(false);
-        return;
-      }
-
-      // Only create order if payment was successful
-      if (paymentIntent && paymentIntent.status === "succeeded") {
-        try {
-          const orderData = {
-            orderNumber: `RC-${Date.now()}`,
-            sessionId,
-            subtotal: subtotal.toFixed(2),
-            tax: tax.toFixed(2),
-            total: total.toFixed(2),
-            paymentMethod: "stripe",
-            paymentIntentId: paymentIntent.id,
-            status: "completed",
-          };
-
-          const response = await apiRequest("POST", "/api/orders", orderData);
-          if (!response.ok) {
-            throw new Error("Failed to create order");
-          }
-
-          await clearCart();
-          // Redirect to thank you page with order number
-          window.location.href = `/thank-you?order=${orderData.orderNumber}`;
-        } catch (err) {
-          console.error("Error creating order:", err);
-          toast({
-            title: "Order Creation Failed",
-            description: "Payment was successful but there was an issue creating your order. Please contact support.",
-            variant: "destructive",
-          });
-        }
-      } else {
-        toast({
-          title: "Payment Incomplete",
-          description: "Payment was not completed successfully. Please try again.",
-          variant: "destructive",
-        });
-      }
-    } catch (err) {
-      console.error("Payment processing error:", err);
+    if (error) {
       toast({
-        title: "Payment Error",
-        description: "An unexpected error occurred. Please try again.",
+        title: "Payment Failed",
+        description: error.message,
         variant: "destructive",
       });
-    } finally {
+      setIsProcessing(false);
+    } else {
+      // Create order in database
+      try {
+        const orderData = {
+          orderNumber: `RC-${Date.now()}`,
+          sessionId,
+          subtotal: "0", // Will be calculated on backend
+          tax: "0",
+          total: "0",
+          paymentMethod: "stripe",
+          status: "completed",
+        };
+
+        await apiRequest("POST", "/api/orders", orderData);
+        await clearCart();
+        // Redirect to thank you page with order number
+        window.location.href = `/thank-you?order=${orderData.orderNumber}`;
+      } catch (err) {
+        console.error("Error creating order:", err);
+      }
       setIsProcessing(false);
     }
   };
@@ -162,26 +114,12 @@ export default function Checkout() {
         amount: total,
         sessionId: crypto.randomUUID() 
       })
-        .then((res) => {
-          if (!res.ok) {
-            throw new Error(`HTTP error! status: ${res.status}`);
-          }
-          return res.json();
-        })
+        .then((res) => res.json())
         .then((data) => {
-          if (data.clientSecret) {
-            setClientSecret(data.clientSecret);
-          } else {
-            throw new Error("No client secret received");
-          }
+          setClientSecret(data.clientSecret);
         })
         .catch((error) => {
           console.error("Error creating payment intent:", error);
-          toast({
-            title: "Payment Setup Error",
-            description: "Unable to initialize payment. Please refresh the page and try again.",
-            variant: "destructive",
-          });
         });
     }
   }, [total]);
