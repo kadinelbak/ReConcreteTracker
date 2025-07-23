@@ -147,7 +147,7 @@ export default function Landing() {
                 <Recycle className="text-accent mr-2 h-6 w-6" />
                 ReConcrete
               </h3>
-              <p className="text-gray-200 mb-6 leading-relaxed">
+              <p className="text-black font-semibold mb-6 leading-relaxed">
                 Building a sustainable future through innovative recycled concrete solutions.
               </p>
               <div className="flex flex-col gap-3">
