@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useLocation } from 'wouter';
@@ -119,7 +118,7 @@ export default function Admin() {
                 </div>
               </CardContent>
             </Card>
-            
+
             <Card>
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
@@ -131,7 +130,7 @@ export default function Admin() {
                 </div>
               </CardContent>
             </Card>
-            
+
             <Card>
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
@@ -143,7 +142,7 @@ export default function Admin() {
                 </div>
               </CardContent>
             </Card>
-            
+
             <Card>
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
@@ -163,11 +162,11 @@ export default function Admin() {
               <TabsTrigger value="products">Products</TabsTrigger>
               <TabsTrigger value="orders">Orders</TabsTrigger>
             </TabsList>
-            
+
             <TabsContent value="products" className="mt-6">
               <AdminProductTable />
             </TabsContent>
-            
+
             <TabsContent value="orders" className="mt-6">
               <Card>
                 <CardHeader>
