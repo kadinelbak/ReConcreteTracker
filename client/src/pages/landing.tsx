@@ -200,7 +200,7 @@ export default function Landing() {
             
             <div>
               <h4 className="font-semibold mb-4 text-white">Quick Links</h4>
-              <div className="space-y-3 text-gray-300">
+              <div className="space-y-3 text-black font-semibold">
                 <p>
                   <a href="/products" className="hover:text-accent transition-colors">Products</a>
                 </p>
