@@ -5,7 +5,7 @@ import {
   type Order, type InsertOrder, type OrderItem, type InsertOrderItem
 } from "@shared/schema";
 import { db } from "./db";
-import { eq, desc, sql } from "drizzle-orm";
+import { eq, desc, and, inArray, gte, lt, sql } from "drizzle-orm";
 
 // Storage interface definition
 export interface IStorage {
@@ -132,23 +132,51 @@ export class DatabaseStorage implements IStorage {
 
   async getAdminStats(): Promise<any> {
     try {
-      const [totalProducts] = await db.select({ count: sql`count(*)` }).from(products);
-      const [activeProducts] = await db.select({ count: sql`count(*)` }).from(products).where(eq(products.isActive, true));
-      const [totalOrders] = await db.select({ count: sql`count(*)` }).from(orders);
-
-      // Calculate today's revenue
       const today = new Date();
       today.setHours(0, 0, 0, 0);
-      const [revenueToday] = await db
-        .select({ sum: sql`coalesce(sum(${orders.total}), 0)` })
+      const tomorrow = new Date(today);
+      tomorrow.setDate(tomorrow.getDate() + 1);
+
+      // Get total products count
+      const [totalProducts] = await db.select({ count: sql<number>`count(*)` }).from(products);
+
+      // Get active products count
+      const [activeProducts] = await db.select({ count: sql<number>`count(*)` })
+        .from(products)
+        .where(eq(products.isActive, true));
+
+      // Get orders today count
+      const [ordersToday] = await db.select({ count: sql<number>`count(*)` })
         .from(orders)
-        .where(sql`${orders.createdAt} >= ${today.toISOString()}`);
+        .where(and(
+          gte(orders.createdAt, today),
+          lt(orders.createdAt, tomorrow)
+        ));
+
+      // Get revenue today
+      const [revenueResult] = await db.select({ 
+        total: sql<string>`COALESCE(sum(${orders.total}), 0)` 
+      })
+      .from(orders)
+      .where(and(
+        gte(orders.createdAt, today),
+        lt(orders.createdAt, tomorrow),
+        eq(orders.status, 'completed')
+      ));
+
+      // Get low stock items
+      const lowStockThreshold = 10; // You can adjust this threshold
+      const lowStockItems = await db
+        .select({ count: sql<number>`count(*)` })
+        .from(products)
+        .where(lt(products.quantity, lowStockThreshold));
 
       return {
         totalProducts: totalProducts.count,
         activeProducts: activeProducts.count,
-        totalOrders: totalOrders.count,
-        revenueToday: parseFloat(revenueToday.sum) || 0,
+        ordersToday: ordersToday.count,
+        revenueToday: parseFloat(revenueResult.total) || 0,
+        lowStockItems: lowStockItems[0]?.count || 0, 
       };
     } catch (error: any) {
       console.error('Error getting admin stats:', error);

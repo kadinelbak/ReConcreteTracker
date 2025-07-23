@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useLocation } from 'wouter';
@@ -19,7 +20,7 @@ import {
 interface AdminStats {
   totalProducts: number;
   activeProducts: number;
-  totalOrders: number;
+  ordersToday: number;
   revenueToday: number;
 }
 
@@ -118,19 +119,19 @@ export default function Admin() {
                 </div>
               </CardContent>
             </Card>
-
+            
             <Card>
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm text-gray-600">Total Orders</p>
-                    <p className="text-2xl font-bold text-primary">{stats?.totalOrders || 0}</p>
+                    <p className="text-sm text-gray-600">Orders Today</p>
+                    <p className="text-2xl font-bold text-primary">{stats?.ordersToday || 0}</p>
                   </div>
                   <ShoppingCart className="w-8 h-8 text-accent" />
                 </div>
               </CardContent>
             </Card>
-
+            
             <Card>
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
@@ -142,7 +143,7 @@ export default function Admin() {
                 </div>
               </CardContent>
             </Card>
-
+            
             <Card>
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
@@ -150,7 +151,7 @@ export default function Admin() {
                     <p className="text-sm text-gray-600">Active Products</p>
                     <p className="text-2xl font-bold text-primary">{stats?.activeProducts || 0}</p>
                   </div>
-                  <AlertTriangle className="w-8 h-8 text-green-500" />
+                  <Package className="w-8 h-8 text-green-500" />
                 </div>
               </CardContent>
             </Card>
@@ -162,11 +163,11 @@ export default function Admin() {
               <TabsTrigger value="products">Products</TabsTrigger>
               <TabsTrigger value="orders">Orders</TabsTrigger>
             </TabsList>
-
+            
             <TabsContent value="products" className="mt-6">
               <AdminProductTable />
             </TabsContent>
-
+            
             <TabsContent value="orders" className="mt-6">
               <Card>
                 <CardHeader>
