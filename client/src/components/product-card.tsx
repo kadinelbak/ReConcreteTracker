@@ -86,7 +86,7 @@ export default function ProductCard({ product }: ProductCardProps) {
             </span>
           </div>
           <div className="text-2xl font-bold text-primary">
-            {product.price ? `$${product.price}${product.type === 'product' ? '/m³' : '/month'}` : 'Contact Us'}
+            {product.price ? `$${product.price}${product.type === 'product' ? '/ct' : '/month'}` : 'Contact Us'}
           </div>
         </div>
         
