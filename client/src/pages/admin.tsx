@@ -35,16 +35,45 @@ export default function Admin() {
   const { data: stats, isLoading: statsLoading } = useQuery<AdminStats>({
     queryKey: ["/api/admin/stats"],
     enabled: isAdmin,
+    refetchInterval: 30000, // Refresh every 30 seconds
   });
 
   const { data: orders = [], isLoading: ordersLoading } = useQuery<any[]>({
     queryKey: ["/api/admin/orders"],
     enabled: isAdmin,
-    queryFn: async () => {
-      // Return mock data for now
-      return [];
+    refetchInterval: 30000, // Refresh every 30 seconds
+  });
+
+  const updateOrderStatusMutation = useMutation({
+    mutationFn: async ({ orderId, status }: { orderId: number; status: string }) => {
+      const response = await fetch(`/api/admin/orders/${orderId}/status`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status }),
+      });
+      if (!response.ok) throw new Error('Failed to update order status');
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/orders"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/stats"] });
+      toast({
+        title: "Success",
+        description: "Order status updated successfully",
+      });
+    },
+    onError: () => {
+      toast({
+        title: "Error",
+        description: "Failed to update order status",
+        variant: "destructive",
+      });
     },
   });
+
+  const handleUpdateOrderStatus = (orderId: number, status: string) => {
+    updateOrderStatusMutation.mutate({ orderId, status });
+  };
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -182,6 +211,38 @@ export default function Admin() {
                           </tr>
                         </thead>
                         <tbody>
+                          {orders.map((order: any) => (
+                            <tr key={order.id} className="border-b hover:bg-gray-50">
+                              <td className="py-3 px-4">
+                                <span className="font-medium">#{order.orderNumber}</span>
+                              </td>
+                              <td className="py-3 px-4">
+                                <div className="text-sm">
+                                  <div className="font-medium">{order.customerName}</div>
+                                  <div className="text-gray-500">{order.customerEmail}</div>
+                                </div>
+                              </td>
+                              <td className="py-3 px-4">
+                                <span className="text-sm">Items in order</span>
+                              </td>
+                              <td className="py-3 px-4">
+                                <span className="font-medium">${order.total}</span>
+                              </td>
+                              <td className="py-3 px-4">
+                                <Badge className={getStatusColor(order.status)}>
+                                  {order.status}
+                                </Badge>
+                              </td>
+                              <td className="py-3 px-4">
+                                <div className="text-sm">
+                                  <div>{new Date(order.createdAt).toLocaleDateString()}</div>
+                                  <div className="text-xs text-gray-500">
+                                    {new Date(order.createdAt).toLocaleTimeString()}
+                                  </div>
+                                </div>
+                              </td>
+                            </tr>
+                          ))}
                           {orders.length === 0 && (
                             <tr>
                               <td colSpan={6} className="text-center py-8 text-gray-500">
