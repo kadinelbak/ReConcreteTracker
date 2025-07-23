@@ -214,12 +214,16 @@ export default function Admin() {
                           {orders.map((order: any) => (
                             <tr key={order.id} className="border-b hover:bg-gray-50">
                               <td className="py-3 px-4">
-                                <span className="font-medium">#{order.orderNumber}</span>
+                                <span className="font-medium">#{order.orderNumber || order.id}</span>
                               </td>
                               <td className="py-3 px-4">
                                 <div className="text-sm">
-                                  <div className="font-medium">{order.customerName}</div>
-                                  <div className="text-gray-500">{order.customerEmail}</div>
+                                  <div className="font-medium">
+                                    {order.sessionId ? `Session: ${order.sessionId.substring(0, 8)}...` : 'Guest Customer'}
+                                  </div>
+                                  <div className="text-gray-500">
+                                    {order.paymentMethod ? `Payment: ${order.paymentMethod}` : 'N/A'}
+                                  </div>
                                 </div>
                               </td>
                               <td className="py-3 px-4">
