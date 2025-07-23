@@ -31,6 +31,7 @@ export interface IStorage {
   // Order methods
   createOrder(insertOrder: InsertOrder): Promise<Order>;
   getOrderByNumber(orderNumber: string): Promise<Order | undefined>;
+  createOrderItems(orderItems: InsertOrderItem[]): Promise<OrderItem[]>;
 
   // Admin methods
   getAdminStats(): Promise<any>;
@@ -116,16 +117,68 @@ export class DatabaseStorage implements IStorage {
   }
 
   async createOrder(insertOrder: InsertOrder): Promise<Order> {
-    const [order] = await db
-      .insert(orders)
-      .values(insertOrder)
-      .returning();
-    return order;
+    // If sessionId is provided, calculate totals from cart and create order items
+    if (insertOrder.sessionId) {
+      // Get cart items with product details
+      const cartItemsWithProducts = await this.getCartItems(insertOrder.sessionId);
+      
+      if (cartItemsWithProducts.length === 0) {
+        throw new Error('Cannot create order: cart is empty');
+      }
+      
+      // Calculate totals from cart items
+      let subtotal = 0;
+      cartItemsWithProducts.forEach(item => {
+        const price = parseFloat(item.product.price?.toString() || '0');
+        subtotal += price * item.quantity;
+      });
+      
+      const taxRate = 0.08; // 8% tax rate
+      const tax = subtotal * taxRate;
+      const total = subtotal + tax;
+      
+      // Update order data with calculated values
+      const orderData = {
+        ...insertOrder,
+        subtotal: subtotal.toFixed(2),
+        tax: tax.toFixed(2),
+        total: total.toFixed(2)
+      };
+      
+      // Create the order
+      const [order] = await db
+        .insert(orders)
+        .values(orderData)
+        .returning();
+      
+      // Create order items from cart items
+      const orderItemsData = cartItemsWithProducts.map(cartItem => ({
+        orderId: order.id,
+        productId: cartItem.productId,
+        quantity: cartItem.quantity,
+        price: cartItem.product.price?.toString() || '0'
+      }));
+      
+      await db.insert(orderItems).values(orderItemsData);
+      
+      return order;
+    } else {
+      // For orders without sessionId (legacy or direct creation)
+      const [order] = await db
+        .insert(orders)
+        .values(insertOrder)
+        .returning();
+      return order;
+    }
   }
 
   async getOrderByNumber(orderNumber: string): Promise<Order | undefined> {
     const [order] = await db.select().from(orders).where(eq(orders.orderNumber, orderNumber));
     return order || undefined;
+  }
+
+  async createOrderItems(orderItemsData: InsertOrderItem[]): Promise<OrderItem[]> {
+    return await db.insert(orderItems).values(orderItemsData).returning();
   }
 
   // Admin methods
@@ -154,7 +207,7 @@ export class DatabaseStorage implements IStorage {
         ));
 
       // Get revenue today
-      const [revenueResult] = await db.select({ 
+      const [revenueTodayResult] = await db.select({ 
         total: sql<string>`COALESCE(sum(${orders.total}), 0)` 
       })
       .from(orders)
@@ -164,18 +217,23 @@ export class DatabaseStorage implements IStorage {
         eq(orders.status, 'completed')
       ));
 
-      // Get low stock items (commented out since products table doesn't have quantity field)
-      const lowStockThreshold = 10; // You can adjust this threshold
-      // const lowStockItems = await db
-      //   .select({ count: sql<number>`count(*)` })
-      //   .from(products)
-      //   .where(lt(products.quantity, lowStockThreshold));
+      // Get total revenue (all time)
+      const [totalRevenueResult] = await db.select({ 
+        total: sql<string>`COALESCE(sum(${orders.total}), 0)` 
+      })
+      .from(orders)
+      .where(eq(orders.status, 'completed'));
+
+      // Get total orders count
+      const [totalOrders] = await db.select({ count: sql<number>`count(*)` }).from(orders);
 
       return {
         totalProducts: totalProducts.count,
         activeProducts: activeProducts.count,
+        totalOrders: totalOrders.count,
         ordersToday: ordersToday.count,
-        revenueToday: parseFloat(revenueResult.total) || 0,
+        revenueToday: parseFloat(revenueTodayResult.total) || 0,
+        totalRevenue: parseFloat(totalRevenueResult.total) || 0,
       };
     } catch (error: any) {
       console.error('Error getting admin stats:', error);
@@ -272,10 +330,7 @@ export class DatabaseStorage implements IStorage {
 
   async deleteProduct(productId: number): Promise<void> {
     try {
-      const result = await db.delete(products).where(eq(products.id, productId));
-      if (result.rowsAffected === 0) {
-        throw new Error('Product not found');
-      }
+      await db.delete(products).where(eq(products.id, productId));
     } catch (error: any) {
       console.error('Error deleting product:', error);
       throw new Error('Failed to delete product');
