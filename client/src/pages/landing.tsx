@@ -189,7 +189,7 @@ export default function Landing() {
                 </p>
                 <p className="flex items-center">
                   <Mail className="h-4 w-4 mr-2 text-accent" />
-                  info@reconcrete.com
+                  zhangboyang200803@gmail.com
                 </p>
                 <p className="flex items-center">
                   <MapPin className="h-4 w-4 mr-2 text-accent" />
