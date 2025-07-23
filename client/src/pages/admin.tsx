@@ -19,9 +19,9 @@ import {
 
 interface AdminStats {
   totalProducts: number;
-  ordersToday: number;
+  activeProducts: number;
+  totalOrders: number;
   revenueToday: number;
-  lowStockItems: number;
 }
 
 export default function Admin() {
@@ -35,15 +35,6 @@ export default function Admin() {
   const { data: stats, isLoading: statsLoading } = useQuery<AdminStats>({
     queryKey: ["/api/admin/stats"],
     enabled: isAdmin,
-    queryFn: async () => {
-      // Return mock data for now since we don't have the admin API endpoints yet
-      return {
-        totalProducts: 3,
-        ordersToday: 5,
-        revenueToday: 1250,
-        lowStockItems: 1
-      };
-    },
   });
 
   const { data: orders = [], isLoading: ordersLoading } = useQuery<any[]>({
@@ -133,8 +124,8 @@ export default function Admin() {
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm text-gray-600">Orders Today</p>
-                    <p className="text-2xl font-bold text-primary">{stats?.ordersToday || 0}</p>
+                    <p className="text-sm text-gray-600">Total Orders</p>
+                    <p className="text-2xl font-bold text-primary">{stats?.totalOrders || 0}</p>
                   </div>
                   <ShoppingCart className="w-8 h-8 text-accent" />
                 </div>
@@ -157,10 +148,10 @@ export default function Admin() {
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm text-gray-600">Low Stock Items</p>
-                    <p className="text-2xl font-bold text-primary">{stats?.lowStockItems || 0}</p>
+                    <p className="text-sm text-gray-600">Active Products</p>
+                    <p className="text-2xl font-bold text-primary">{stats?.activeProducts || 0}</p>
                   </div>
-                  <AlertTriangle className="w-8 h-8 text-red-500" />
+                  <AlertTriangle className="w-8 h-8 text-green-500" />
                 </div>
               </CardContent>
             </Card>
