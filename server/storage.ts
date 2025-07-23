@@ -183,10 +183,10 @@ export class DatabaseStorage implements IStorage {
     }
   }
 
-  async getAllOrders(): Promise<Order[]> {
+  async getAllOrders(): Promise<any[]> {
     try {
-      // Only get orders that have at least one order item (actual purchases)
-      const result = await db.select({
+      // Get all orders that have at least one order item
+      const ordersWithItems = await db.select({
         id: orders.id,
         orderNumber: orders.orderNumber,
         sessionId: orders.sessionId,
@@ -203,8 +203,36 @@ export class DatabaseStorage implements IStorage {
       .innerJoin(orderItems, eq(orders.id, orderItems.orderId))
       .groupBy(orders.id)
       .orderBy(desc(orders.createdAt));
-      
-      return result;
+
+      // For each order, get its items with product details
+      const ordersWithItemDetails = await Promise.all(
+        ordersWithItems.map(async (order) => {
+          const items = await db.select({
+            id: orderItems.id,
+            quantity: orderItems.quantity,
+            price: orderItems.price,
+            productName: products.name,
+            product: {
+              id: products.id,
+              name: products.name,
+              description: products.description,
+              price: products.price,
+              type: products.type,
+              category: products.category
+            }
+          })
+          .from(orderItems)
+          .innerJoin(products, eq(orderItems.productId, products.id))
+          .where(eq(orderItems.orderId, order.id));
+
+          return {
+            ...order,
+            items
+          };
+        })
+      );
+
+      return ordersWithItemDetails;
     } catch (error: any) {
       console.error('Error getting all orders:', error);
       throw new Error('Failed to get orders');
